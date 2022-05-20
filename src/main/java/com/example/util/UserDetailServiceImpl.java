@@ -19,10 +19,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class UserDetailServiceImpl implements UserDetailsService {
 
-    @Value(value = "${application.name}")
+    @Value(value = "${spring.application.name}")
     private String appname;
     
-    @Value(value = "${application.autor}")
+    @Value(value = "${spring.application.autor}")
     private String autor;
     
     @Autowired

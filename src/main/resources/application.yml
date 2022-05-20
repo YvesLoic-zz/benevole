@@ -19,8 +19,7 @@ spring:
         basename: lang/messages
 
     application:
-      admin:
-        jmx-name: The_Killer
+      autor: The_Killer
       name: Bénévoles
       
 logging:
