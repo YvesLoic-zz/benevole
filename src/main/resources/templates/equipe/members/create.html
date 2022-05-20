@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{emct}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/equipes/index}" th:text="#{menu.equipes}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{emct}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <div class="container-fluid pt-4 px-4">
+                <form th:action="@{'/equipes/'+${equipe.id}+'/'+${userId}+'/membersAdd'}" method="post" id="f">
+                    <div class="col-sm-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4" th:text="#{pages.members.create.title}">Floating Label</h6>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="equipe" aria-label="Floating label select example" disabled>
+                                    <option selected th:text="${equipe.name}" th:value="${equipe.id}">selector
+                                    </option>
+                                </select>
+                                <label for="equipe" th:text="#{eName}">Works with selects</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="u" aria-label="Floating label select example"
+                                        th:selected="${users.get(0)}">
+                                    <option th:each="user: ${users}" th:text="${user.username}" 
+                                            th:value="|/equipes/${equipe.id}/${user.id}/membersAdd|">
+                                        selector</option>
+                                </select>
+                                <label for="u" th:text="#{userHolder(Equipe)}">Works with selects</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i>
+                                <span th:text="#{action.store(Member)}">text</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <div layout:fragment="optional">
+            <script type="text/javascript">
+                (function ($) {
+                    $('#u').on('change', function (e) {
+                        var userId = $(e.target).val();
+                        var url = userId;
+                        $('#f')[0].action = url;
+                        console.log(url);
+                    });
+                })(jQuery);
+            </script>
+        </div>
+    </body>
+
+</html>

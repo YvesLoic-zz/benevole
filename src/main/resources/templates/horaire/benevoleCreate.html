@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<head>
+    <title th:text="#{hct}">TODO supply a title</title>
+</head>
+
+<body>
+    <main class="container" layout:fragment="mainContent">
+        <!-- Title section page start -->
+        <div class="card border-0">
+            <div class="card-body">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/benevoles/indexBen}" th:text="#{menu.horaires}">text</a>
+                        </li>
+                        <li class="breadcrumb-item active" th:text="#{hct}">Default</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Title section page end -->
+
+        <div class="container-fluid pt-4 px-4">
+            <form th:action="@{/benevoles/indexBen/store}" method="post" th:object="${benevole}">
+                <div class="col-sm-12">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4" th:text="#{hct}">Floating Label</h6>
+                        <!-- Sceances Start -->
+                        <div class="container-fluid pt-4 px-4">
+                            <div class="row g-4">
+                                <div class="col-sm-12 col-xl-6">
+                                    <div class="bg-light text-center rounded p-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-4">
+                                            <h6 class="mb-0" th:text="#{menu.distributions}">Worldwide Sales</h6>
+                                        </div>
+                                        <th:block th:each="h: ${hd}">
+                                            <input type="checkbox" th:field="*{horaires}" th:value="${h.id}"
+                                                th:text="|${#temporals.format(h.start, 'dd MMM yyyy HH:mm')} - ${#temporals.format(h.end, 'dd MMM yyyy HH:mm')}|" />
+                                            <br>
+                                        </th:block>
+                                        <div th:unless="${hd!=null}" th:text="#{empty.list}">No data
+                                            yet!</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-xl-6">
+                                    <div class="bg-light text-center rounded p-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-4">
+                                            <h6 class="mb-0" th:text="#{menu.recuperations}">Salse & Revenue</h6>
+                                        </div>
+                                        <th:block th:each="h: ${hr}">
+                                            <input type="checkbox" th:field="*{horaires}" th:value="${h.id}"
+                                                th:text="|${#temporals.format(h.start, 'dd MMM yyyy HH:mm')} - ${#temporals.format(h.end, 'dd MMM yyyy HH:mm')}|" />
+                                            <br>
+                                            </th:block>
+                                        <div th:unless="${hr!=null}" th:text="#{empty.list}">No data
+                                            yet!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sceances End -->
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i>
+                            <span th:text="#{save}">text</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

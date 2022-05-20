@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{det}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/distributions/index}" th:text="#{menu.distributions}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{det}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <div class="container-fluid pt-4 px-4">
+                <form th:if="${distribution!=null}" th:action="@{'/distributions/'+${distribution.id}+'/update'}" method="post" th:object="${distribution}">
+                    <div class="col-sm-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4" th:text="#{det}">Floating Label</h6>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="horaire" th:field="*{horaire}"
+                                        aria-label="Floating label select example">
+                                    <option th:each="horaire: ${horaires}" th:text="|${#temporals.format(horaire.start, 'dd MMM yyyy HH:mm')}-${#temporals.format(horaire.end, 'dd MMM yyyy HH:mm')}|" 
+                                            th:value="${horaire.id}">select horaire</option>
+                                </select>
+                                <label for="horaire" th:text="#{dPeriode}">Works with selects</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('horaire')}" th:errors="*{horaire}">horaire error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="equipe" th:field="*{equipe}"
+                                        aria-label="Floating label select example">
+                                    <option th:each="equipe: ${equipes}" th:text="${equipe.name}" th:value="${equipe.id}">select equipe</option>
+                                </select>
+                                <label for="equipe" th:text="#{dEquipe}">Works with selects</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('equipe')}" th:errors="*{equipe}">equipe error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="lieux" th:field="*{lieux}" />
+                                <label for="lieux" th:text="#{dLieux}">Lieu</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('lieux')}" th:errors="*{lieux}">lieux error message</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary" 
+                                    sec:authorize="hasRole('ROLE_ADMIN')">
+                                <i class="bi bi-pen"></i>
+                                <span th:text="#{edit}">text</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div th:unless="${distribution!=null}">Not result found!</div>
+            </div>
+        </main>
+    </body>
+
+</html>

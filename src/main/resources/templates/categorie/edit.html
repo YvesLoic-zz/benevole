@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{cet}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/categories/index}" th:text="#{menu.categories}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{cet}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <div class="container-fluid pt-4 px-4">
+                <form th:if="${categorie!=null}" th:action="@{'/categories/'+${categorie.id}+'/update'}" method="post" th:object="${categorie}">
+                    <div class="col-sm-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4" th:text="#{met}">Floating Label</h6>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="id" placeholder="Magasin name"
+                                       th:field="*{id}" readonly=""/>
+                                <label for="id" th:text="#{cId}">Id</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id
+                                    error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="name" th:field="*{name}" />
+                                <label for="name" th:text="#{cName}">Name</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('name')}"
+                                      th:errors="*{name}">name error message</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary"
+                                    sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                <i class="bi bi-pen"></i>
+                                <span th:text="#{edit}">text</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div th:unless="${categorie!=null}" th:text="#{empty.list}">Not result found!</div>
+            </div>
+        </main>
+    </body>
+
+</html>

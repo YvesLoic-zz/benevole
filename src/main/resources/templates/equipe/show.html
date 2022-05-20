@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{est}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/equipes/index}" th:text="#{menu.equipes}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{est}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <!-- Details Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0" th:text="#{est}">Recent Salse</h6>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{eName}">Name</h6>
+                            </div>
+                            <span th:text="${equipe.name}">equipe name</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{eLeader}">User</h6>
+                            </div>
+                            <span th:text="${equipe.benevole!=null?equipe.benevole.username.username:null}">equipe user</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{eMembers}">eff</h6>
+                            </div>
+                            <span th:text="${equipe.members.size()}">equipe eff</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{created_at}">DateCreation</h6>
+                            </div>
+                            <span th:text="${#temporals.format(equipe.createdAt, 'dd MMM yyyy HH:mm')}">equipe date</span>
+                        </div>
+                    </div>
+                    <form th:action="@{'/equipes/'+ ${equipe.id}+'/delete'}" 
+                          method="post" th:object="${equip}"
+                          sec:authorize="hasRole('ROLE_ADMIN')">
+                        <button type="submit" class="btn btn-outline-danger m-2">
+                            <i class="bi bi-trash"></i>
+                            <span th:text="#{delete}">text</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!-- Details End -->
+
+            <!-- Sceances Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0" th:text="#{menu.recuperations}">Worldwide Sales</h6>
+                            </div>
+                            <div class="accordion accordion-flush" id="recuperation"
+                                 th:if="${equipe.recuperation!=null}">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" th:id="|flush-heading${equipe.recuperation.id}|">
+                                        <button class="accordion-button" type="button" th:data-bs-toggle="collapse"
+                                                th:data-bs-target="|#flush-collapse${equipe.recuperation.id}|" aria-expanded="true"
+                                                th:aria-controls="|flush-collapse${equipe.recuperation.id}|" th:text="${equipe.recuperation}">
+                                            Equipe Name #1
+                                        </button>
+                                    </h2>
+                                    <div th:id="|flush-collapse${equipe.recuperation.id}|" class="accordion-collapse collapse show"
+                                         th:aria-labelledby="|flush-heading${recup.equipe.idEquipe}|" data-bs-parent="#recuperation">
+                                        <div class="accordion-body">
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{eName}">Equipe Name</span>
+                                                <span th:text="${equipe.name}">equipe name</span>
+                                            </div>
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{rStartDate}">Date recuperation</span>
+                                                <span th:text="${#temporals.format(equipe.recuperation.startDate, 'dd MMM yyy HH:mm')}">date recup</span>
+                                            </div>
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{rEndDate}">Date recuperation</span>
+                                                <span th:text="${#temporals.format(equipe.recuperation.endDate, 'dd MMM yyy HH:mm')}">date recup</span>
+                                            </div>
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{rStatus}">Satut</span>
+                                                <span th:text="${equipe.recuperation.statut}">statut</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:unless="${equipe.recuperation!=null}" th:text="#{empty.list}">No data yet!</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-light text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0" th:text="#{menu.distributions}">Salse & Revenue</h6>
+                            </div>
+                            <div class="accordion accordion-flush" id="distribution"
+                                 th:if="${equipe.distribution!=null}">
+                                <div class="accordion-item" >
+                                    <h2 class="accordion-header" th:id="|flush-heading${equipe.distribution.id}|">
+                                        <button class="accordion-button" type="button" th:data-bs-toggle="collapse"
+                                                th:data-bs-target="|#flush-collapse${equipe.distribution.id}|" aria-expanded="true"
+                                                th:aria-controls="|flush-collapse${equipe.distribution.id}|" th:text="${equipe.distribution}">
+                                            Equipe Name #1
+                                        </button>
+                                    </h2>
+                                    <div th:id="|flush-collapse${dis.equipe.id}|" class="accordion-collapse collapse show"
+                                         th:aria-labelledby="|flush-heading${equipe.distribution.id}|" data-bs-parent="#distribution">
+                                        <div class="accordion-body">
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{eName}">Equipe Name</span>
+                                                <span th:text="${equipe.name}">equipe name</span>
+                                            </div>
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{dStartDate}">Date Distribution</span>
+                                                <span th:text="${equipe.distribution.startDate}">date</span>
+                                            </div>
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{dEndDate}">Date Distribution</span>
+                                                <span th:text="${equipe.distribution.endDate}">date</span>
+                                            </div>
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{dLocation}">Lieux</span>
+                                                <span th:text="${equipe.distribution.location}">lieux</span>
+                                            </div>
+                                            <div class="w-100 ms-3 border-bottom py-3">
+                                                <span th:text="#{dStatus}">Statut</span>
+                                                <span th:text="${equipe.distribution.statut}">statut</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:unless="${equipe.distribution!=null}" th:text="#{empty.list}">No data yet!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sceances End -->
+
+        </main>
+    </body>
+
+</html>

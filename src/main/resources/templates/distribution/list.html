@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{dlt}">Titr</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/distributions/index}" th:text="#{menu.distributions}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{dlt}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <div class="row">
+                <div class="col">
+                    <div th:if="${!distributions.isEmpty()}">
+                        <table class="table" id="distributions">
+                            <thead>
+                                <tr>
+                                    <th th:text="num"></th>
+                                    <th th:text="#{dStartDate}"></th>
+                                    <th th:text="#{dLeader}"></th>
+                                    <th th:text="#{dEffectif}"></th>
+                                    <th th:text="#{dStatus}"></th>
+                                    <th th:text="#{actions}" sec:authorize="hasRole('ROLE_ADMIN')"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each="d, i: ${distributions}">
+                                    <td th:text="${i.index+1}"></td>
+                                    <td th:text="${#temporals.format(d.startDate, 'dd MMM yyyy HH:mm')}"></td>
+                                    <td th:text="${d.equipe.chef}"></td>
+                                    <td>
+                                        <a class="btn btn-dark" th:href="@{'/distributions/'+${d.id}+'/members'}">
+                                            <i class="bi bi-person" th:text="${d.effectif}"> </i>
+                                        </a>
+                                    </td>
+                                    <td th:text="${d.statut}"></td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <a class="btn btn-info" th:href="@{'/distributions/'+${d.id}+'/show'}">
+                                            <i class="bi bi-eye"></i>
+                                            <span th:text="#{see}">text</span>
+                                        </a>
+                                        <a class="btn btn-warning" th:href="@{'/distributions/'+ ${d.id} +'/edit'}"
+                                           th:if="${d.statut}=='EN_ATTENTE'">
+                                            <i class="bi bi-pencil"></i>
+                                            <span th:text="#{edit}">text</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:unless="${!distributions.isEmpty()}" th:text="#{empty.list}">
+                        La liste des utilisateurs est vide.
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <a class="btn btn-outline-success" 
+                   th:href="@{'/distributions/create'}" 
+                   sec:authorize="hasRole('ROLE_ADMIN')">
+                    <i class="bi bi-plus-circle"></i>
+                    <span th:text="#{create}">text</span>
+                </a>
+            </div>
+        </main>
+
+        <div layout:fragment="optional">
+            <script>
+                (function ($) {
+                    $('#distributions').DataTable();
+                })(jQuery);
+            </script>
+        </div>
+    </body>
+
+</html>

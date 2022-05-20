@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{hlt}">Titre</title>
+        <link rel="stylesheet" th:href="@{/css/fullcalendar.min.css}"/>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/horaires/index}" th:text="#{menu.horaires}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{hlt}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <div class="row">
+                <div>
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card card-primary">
+                                <div class="card-body">
+                                    <span style="font-size: 25px;">Legende :</span>
+
+                                    <span class="ml-4">
+                                        <button style="height:20px;width:20px;border-radius:50%;background-color:green"></button>
+                                        <span> :Distribution</span>
+                                    </span>
+                                    <span style="width: 20rem;">
+                                        <button
+                                            style="height:20px;width:20px;border-radius:50%;background-color:red"></button>
+                                        <span> :Reservation</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-primary">
+                        <div class="card-body p-0" style="height: 40rem; overflow:auto;">
+                            <!-- THE CALENDAR -->
+                            <div id="calendar" class="p-2 h-100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div layout:fragment="optional">
+            <script th:src="@{/js/fullcalendar.min.js}"></script>
+            <script>
+                (function ($) {
+                    $('#calendar').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                        },
+                        selectable: true,
+                        selectHelper: true,
+                        select: function (start, end, allDay) {
+                            var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+                            var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+                            console.log(allDary);
+                        },
+                        eventMouseover: function (calEvent, jsEvent) {
+                            // console.log(calEvent);
+                            var tooltip = '<div class="tooltipEvent" style="width: 100px; height: 100px; background: ' + calEvent.backgroundColor + '; position: absolute; z-index: 10001;">Objet: ' + calEvent.title + /*'<br/> Start: ' + moment(calEvent.start).format('MM, DD hh:mm') + '<br/> End: ' + moment(calEvent.end).format('MM, DD hh:mm') +*/ '</div>';
+                            var el = $(tooltip).appendTo('body');
+
+                            $(this).mouseover(function (e) {
+                                $(this).css('z-index', 10000);
+                                el.fadeIn('500');
+                                el.fadeTo('10', 1.9);
+                            }).mouseout(function (e) {
+                                el.css('top', e.pageY + 10);
+                                el.css('left', e.pageX + 20);
+                            });
+                        },
+                        eventMouseout: function (calEvent, jsEvent) {
+                            $(this).css('z-index', 8);
+                            $('.tooltipEvent').remove();
+                        },
+                        events: [
+                            {
+                                title: 'Titre 1',
+                                start: '2022-04-30T07:32:00',
+                                end: '2022-04-30T07:32:00',
+                                backgroundColor: '#f56954',
+                                borderColor: '#f56954'
+                            }
+                        ]
+                    });
+                })(jQuery);
+            </script>
+        </div>
+    </body>
+
+</html>

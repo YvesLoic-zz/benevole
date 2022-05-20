@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{dst}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/distributions/index}" th:text="#{menu.distributions}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{dst}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <!-- Details Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0" th:text="#{dst}">Recent Salse</h6>
+                        <!--<a href="">Show All</a>-->
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{dLeader}">Name</h6>
+                            </div>
+                            <span th:text="${distribution.equipe.chef}">equipe name</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{dStartDate}">Date</h6>
+                            </div>
+                            <span th:text="${#temporals.format(distribution.startDate, 'dd MMM yyyy HH:mm')}">date</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{dEndDate}">Date</h6>
+                            </div>
+                            <span th:text="${#temporals.format(distribution.endDate, 'dd MMM yyyy HH:mm')}">date</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{dLieux}">Lieux</h6>
+                            </div>
+                            <span th:text="${distribution.lieux}">lieux</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{dStatus}">Statut</h6>
+                            </div>
+                            <span th:text="${distribution.statut}">status</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{dRapport}">Statut</h6>
+                            </div>
+                            <span th:text="${distribution.rapport}">status</span>
+                        </div>
+                    </div>
+                    <form th:action="@{'/distributions/'+ ${dist.id}+'/delete'}" 
+                          method="post" th:object="${dist}" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <button type="submit" class="btn btn-outline-danger m-2">
+                            <i class="bi bi-trash"></i>
+                            <span th:text="#{delete}">text</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!-- Details End -->
+
+        </main>
+    </body>
+
+</html>

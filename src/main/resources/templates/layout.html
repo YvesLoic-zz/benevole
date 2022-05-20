@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE" th:text="${#authentication.principal.appname}">benevoles</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css/}"/>
+        <link rel="stylesheet" th:href="@{/css/bootstrap-icons.css/}"/>
+        <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}">
+        <link th:href="@{/css/style.css}" rel="stylesheet" />
+    </head>
+
+    <body>
+        <div class="container-xxl position-relative bg-white d-flex p-0">
+            <!-- Spinner Start -->
+            <div id="spinner"
+                 class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only" th:text="#{loading}">text</span>
+                </div>
+            </div>
+            <!-- Spinner End -->
+
+            <!-- Sidebar Start -->
+            <div class="sidebar pe-4 pb-3">
+                <nav class="navbar bg-light navbar-light" layout:fragment="sidebar">
+                    <a th:href="@{/home}" class="navbar-brand mx-4 mb-3">
+                        <h3 class="text-primary">
+                            <i class="bi bi-hash"></i>
+                            <span sec:authentication="principal.appname">benevoles</span>
+                        </h3>
+                    </a>
+                    <div class="d-flex align-items-center ms-4 mb-4">
+                        <div class="ms-3" sec:authorize="isAuthenticated()">
+                            <h6 class="mb-0">
+                                <span sec:authentication="principal.username">Username</span>
+                            </h6>
+                            <span sec:authentication="principal.authorities" class="small">Roles</span>
+                        </div>
+                    </div>
+                    <div class="navbar-nav w-100" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_BENEVOLE')">
+                        <a th:href="@{/home}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/home'?'active':''">
+                            <i class="bi bi-house-fill"></i>
+                            <span th:text="#{menu.home}">text</span>
+                        </a>
+                        <a th:href="@{/benevoles/index}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/benevoles/index'?'active':''"
+                           sec:authorize="hasRole('ROLE_ADMIN')">
+                            <i class="bi bi-person-lines-fill"></i>
+                            <span  th:text="#{menu.benevoles}">text</span>
+                        </a>
+                        <a th:href="@{/categories/index}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/categories/index'?'active':''"
+                           sec:authorize="hasRole('ROLE_ADMIN')">
+                            <i class="bi bi-gift"></i>
+                            <span  th:text="#{menu.categories}">text</span>
+                        </a>
+                        <a th:href="@{/distributions/index}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/distributions/index'?'active':''"
+                           sec:authorize="hasRole('ROLE_ADMIN')">
+                            <i class="bi bi-share-fill"></i>
+                            <span th:text="#{menu.distributions}">text</span>
+                        </a>
+                        <a th:href="@{/distributions/indexChef}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/distributions/indexChef'?'active':''"
+                           th:if="${#authentication.principal.user.benevole.chef}">
+                            <i class="bi bi-share-fill"></i>
+                            <span th:text="#{menu.distributions}">text</span>
+                        </a>
+                        <a th:href="@{/equipes/index}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/equipes/index'?'active':''"
+                           sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                            <i class="bi bi-x-diamond-fill"></i>
+                            <span th:text="#{menu.equipes}">text</span>
+                        </a>
+                        <a th:href="@{/horaires/index}" class="nav-item nav-link"  
+                           th:classappend="${#httpServletRequest.requestURI}=='/horaires/index'?'active':''"
+                           sec:authorize="hasRole('ROLE_ADMIN')">
+                            <i class="bi bi-calendar"></i>
+                            <span th:text="#{menu.horaires}">text</span>
+                        </a>
+                        <a th:href="@{/benevoles/indexBen}" class="nav-item nav-link"
+                           th:classappend="${#httpServletRequest.requestURI}=='/benevoles/indexBen'?'active':''"
+                           sec:authorize="hasRole('ROLE_BENEVOLE')">
+                            <i class="bi bi-house-door"></i>
+                            <span th:text="#{menu.horaires}">text</span>
+                        </a>
+                        <a th:href="@{/magasins/index}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/magasins/index'?'active':''"
+                           sec:authorize="hasRole('ROLE_ADMIN')">
+                            <i class="bi bi-tropical-storm"></i>
+                            <span th:text="#{menu.magasins}">text</span>
+                        </a>
+                        <a th:href="@{/notifications/index}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/notifications/index'?'active':''">
+                            <i class="bi bi-mailbox"></i>
+                            <span th:text="#{menu.notifications}">text</span>
+                        </a>
+                        <a th:href="@{/recuperations/index}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/recuperations/index'?'active':''"
+                           sec:authorize="hasRole('ROLE_ADMIN')">
+                            <i class="bi bi-receipt-cutoff"></i>
+                            <span th:text="#{menu.recuperations}">text</span>
+                        </a>
+                        <a th:href="@{/recuperations/indexChef}" class="nav-item nav-link" 
+                           th:classappend="${#httpServletRequest.requestURI}=='/recuperations/indexChef'?'active':''"
+                           th:if="${#authentication.principal.user.benevole.chef}">
+                            <i class="bi bi-receipt-cutoff"></i>
+                            <span th:text="#{menu.recuperations}">text</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <!-- Sidebar End -->
+
+            <!-- Content Start -->
+            <div class="content">
+                <!-- Navbar Start -->
+                <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0" layout:fragment="navbar">
+                    <a th:href="@{/home}" class="navbar-brand d-flex d-lg-none me-4">
+                        <h2 class="text-primary mb-0"><i class="bi bi-hash"></i></h2>
+                    </a>
+                    <a href="#" class="sidebar-toggler flex-shrink-0">
+                        <i class="bi bi-menu-button-wide-fill"></i>
+                    </a>
+                    <div class="navbar-nav align-items-center ms-auto">
+                        <div class="navbar-nav dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="langDropdown"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                               data-bs-toggle="dropdown"
+                               th:text="${#locale.language} == 'fr' ? #{lang.fr} : #{lang.en}">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="langDropdown">
+                                <a class="dropdown-item" th:href="${#httpServletRequest.requestURI} + '?lang=fr'">
+                                    <img th:src="@{/images/fr.png}" width="30" height="20" th:text="'&nbsp'+#{lang.fr}" alt="french">
+                                </a>
+                                <a class="dropdown-item" th:href="${#httpServletRequest.requestURI} + '?lang=en'">
+                                    <img th:src="@{/images/en.png}" width="30" height="20"
+                                         th:text="'&nbsp'+#{lang.en}" alt="english">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <span class="d-none d-lg-inline-flex" sec:authentication="name">Username</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                <!-- <a href="#" class="dropdown-item">My Profile</a> -->
+                                <!--<a href="#" class="dropdown-item">Log Out</a>-->
+                                <form th:action="@{/logout}" method="post">
+                                    <input type="submit" th:value="#{layout.logout}" class="dropdown-item" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Navbar End -->
+
+                <!-- Content section Start -->
+                <main class="container" layout:fragment="mainContent">
+
+                </main>
+                <!-- Content section End -->
+
+                <!-- Footer Start -->
+                <div class="container-fluid pt-4 px-4" layout:fragment="footer">
+                    <div class="bg-light rounded-top p-4">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 text-center text-sm-start">
+                                &copy; <a href="#" th:text="|${#authentication.principal.appname} - by ${#authentication.principal.autor}|">
+                                    PFE - Landry
+                                </a>, 
+                                <span th:text="#{layout.copyRight}">text</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer End -->
+            </div>
+            <!-- Content End -->
+
+
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top">
+                <i class="bi bi-arrow-up"></i>
+            </a>
+        </div>
+
+
+        <div layout:fragment="scripts">
+            <!-- JavaScript Libraries -->
+            <script th:src="@{/js/jquery-3.6.min.js}"></script>
+            <!-- <script th:src="@{/js/popper.min.js}"></script> -->
+            <script th:src="@{/js/bootstrap.bundle.js}"></script>
+            <script th:src="@{/js/jquery.dataTables.min.js}"></script>
+            <script th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
+
+            <!-- Template Javascript -->
+            <script th:src="@{/js/main.js}"></script>
+        </div>
+        <!-- Optional Section (en cas d'ajout des librairies js) -->
+        <th:block  layout:fragment="optional" />
+        <!-- Optional Section -->
+
+    </body>
+
+</html>

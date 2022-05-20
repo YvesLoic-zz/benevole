@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{het}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/horaires/index}" th:text="#{menu.horaires}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{het}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <div class="container-fluid pt-4 px-4">
+                <form th:if="${horaire!=null}" th:action="@{'/horaires/'+${horaire.id}+'/update'}" method="post" th:object="${horaire}">
+                    <div class="col-sm-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4" th:text="#{het}">Floating Label</h6>
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" id="start"
+                                       th:field="*{start}" />
+                                <label for="start" th:text="#{hStartDate}">Start Date</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('start')}" th:errors="*{start}">start error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" id="end"
+                                       th:field="*{end}" />
+                                <label for="end" th:text="#{hEndDate}">Date</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('end')}" th:errors="*{end}">end error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="type" th:field="*{type}"
+                                        aria-label="Floating label select example">
+                                    <option th:text="#{menu.distributions}" th:value="Distribution">Distribution</option>
+                                    <option th:text="#{menu.recuperations}" th:value="Recuperation">Recuperation</option>
+                                </select>
+                                <label for="type" th:text="#{hType}">type selects</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">type error message</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary"
+                                    sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                <i class="bi bi-pen"></i>
+                                <span th:text="#{edit}">text</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div th:unless="${horaire!=null}">Not result found!</div>
+            </div>
+        </main>
+    </body>
+
+</html>

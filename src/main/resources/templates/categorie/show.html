@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{cst}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/categories/index}" th:text="#{menu.categories}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{cst}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+            
+            <div th:if="${categorie!=null}">
+                <!-- Details Start -->
+                <div class="container-fluid pt-4 px-4">
+                    <div class="bg-light text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0" th:text="#{cst}">Recent Salse</h6>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0" th:text="#{cName}">Name</h6>
+                                </div>
+                                <span th:text="${categorie.name}">categorie name</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0" th:text="#{created_at}">Date</h6>
+                                </div>
+                                <span th:text="${#temporals.format(categorie.createdAt, 'dd MMM yyyy HH:mm')}">categorie dateCreation</span>
+                            </div>
+                        </div>
+                        <form th:action="@{'/categories/'+ ${categorie.id}+'/delete'}" 
+                              method="post" th:object="${mag}"
+                              sec:authorize="hasRole('ROLE_ADMIN')">
+                            <button type="submit" class="btn btn-outline-danger m-2">
+                                <i class="bi bi-trash"></i>
+                                <span th:text="#{delete}">text</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Details End -->
+
+                <!-- Sceances Start -->
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row g-4">
+                        <div class="col-sm-12">
+                            <div class="bg-light rounded h-100 p-4">
+                                <h6 class="mb-4" th:text="#{menu.magasins}">magasins</h6>
+                                <div class="accordion accordion-flush" id="accordionFlushExample"
+                                     th:if="${!categorie.magasins.isEmpty()}">
+                                    <div class="accordion-item" th:each="mag: ${categorie.magasins}">
+                                        <h2 class="accordion-header" th:id="${mag.id}">
+                                            <button class="accordion-button" type="button" th:data-bs-toggle="collapse"
+                                                    th:data-bs-target="|#flush-collapse${mag.id}|" aria-expanded="true"
+                                                    th:aria-controls="|flush-collapse${mag.id}|" th:text="${mag.name}">
+                                                Equipe Name #1
+                                            </button>
+                                        </h2>
+                                        <div th:id="|flush-collapse${mag.id}|" class="accordion-collapse collapse show"
+                                             aria-labelledby="|flush-heading${mag.id}|" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="w-100 ms-3 border-bottom py-3">
+                                                    <span th:text="#{mName}">Name</span>
+                                                    <span th:text="${mag.name}">name</span>
+                                                </div>
+                                                <div class="w-100 ms-3 border-bottom py-3">
+                                                    <span th:text="#{mAddress}">Address</span>
+                                                    <span th:text="${mag.address}">address</span>
+                                                </div>
+                                                <div class="w-100 ms-3 border-bottom py-3">
+                                                    <span th:text="#{mPhone}">Phone</span>
+                                                    <span th:text="${mag.phone}">phone</span>
+                                                </div>
+                                                <div class="w-100 ms-3 border-bottom py-3">
+                                                    <span th:text="#{created_at}">Address</span>
+                                                    <span th:text="${#temporals.format(mag.createdAt, 'dd MMM yyyy HH:mm')}">date</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:unless="${!categorie.magasins.isEmpty()}" th:text="#{empty.list}">No data yet!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sceances End -->
+            </div>
+            <div th:unless="${categorie!=null}" th:text="#{empty.list}">content</div>
+        </main>
+    </body>
+
+</html>

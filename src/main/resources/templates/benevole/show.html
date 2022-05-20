@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{bst}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/benevoles/index}" th:text="#{menu.benevoles}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{bst}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <!-- Details Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4" th:if="${benevole!=null}">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0" th:text="#{bst}">Recent Salse</h6>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bUsername}">Username</h6>
+                            </div>
+                            <span th:text="${benevole.username}">username</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bName}">Name</h6>
+                            </div>
+                            <span th:text="${benevole.name}">user name</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bLastname}">Lastname</h6>
+                            </div>
+                            <span th:text="${benevole.lastName}">last name</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bAddress}">Address</h6>
+                            </div>
+                            <span th:text="${benevole.address}">adresse</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bCode}">Code</h6>
+                            </div>
+                            <span th:text="${benevole.code}">code</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bVille}">Ville</h6>
+                            </div>
+                            <span th:text="${benevole.ville}">ville</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bEmail}">Email</h6>
+                            </div>
+                            <span th:text="${benevole.email}">email</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bPhone}">Phone</h6>
+                            </div>
+                            <span th:text="${benevole.phone}">phone</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bProfession}">Profession</h6>
+                            </div>
+                            <span th:text="${benevole.profession}">profession</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bSexe}">Sexe</h6>
+                            </div>
+                            <span th:text="${benevole.sexe}">sexe</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bNaiss}">Naissance</h6>
+                            </div>
+                            <span th:text="${benevole.dateNaiss}">dateNaiss</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bPermis}">Permis</h6>
+                            </div>
+                            <span th:text="${benevole.permis}">permis</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{bChef}">Permis</h6>
+                            </div>
+                            <span th:text="${benevole.chef}">permis</span>
+                        </div>
+                    </div>
+                    <form th:action="@{'/benevoles/'+ ${benevole.id}+'/delete'}" method="post" 
+                          th:object="${benModel}"
+                          th:if="${#authentication.principal.id}!=${benevole.id}">
+                        <button type="submit" class="btn btn-outline-danger m-2">
+                            <i class="bi bi-trash"></i>
+                            <span th:text="#{delete}">text</span>
+                        </button>
+                    </form>
+                </div>
+                <div class="bg-light text-center rounded p-4" th:unless="${benevole!=null}">No user found!</div>
+            </div>
+            <!-- Details End -->
+        </main>
+    </body>
+
+</html>

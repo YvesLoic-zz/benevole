@@ -1,0 +1,31 @@
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/benevole
+        username: root
+        password:
+        driverClassName: com.mysql.cj.jdbc.Driver
+    jpa:
+        show-sql: false
+
+# Pour optimiser le SQL généré par Hibernate
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+# Relation entre Hibernate et DB MySQL (create, create-drop, validate, update)
+# (create en phase de création de DB, sinon update)
+        hibernate:
+            ddl-auto: update
+    messages:
+        basename: lang/messages
+
+    application:
+      admin:
+        jmx-name: The_Killer
+      name: Bénévoles
+      
+logging:
+    level:
+        org:
+            hibernate:
+                SQL: DEBUG
+                type: TRACE

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}" >
+
+    <head>
+        <title th:text="#{bet}">TODO supply a title</title>
+    </head>
+
+    <body>
+        <main class="container" layout:fragment="mainContent">
+            <!-- Title section page start -->
+            <div class="card border-0">
+                <div class="card-body">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/home}"><i class="bi bi-house-door"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/benevoles/index}" th:text="#{menu.benevoles}">text</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="#{bet}">Default</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- Title section page end -->
+
+            <div class="container-fluid pt-4 px-4">
+                <form th:if="${benevole!=null}" th:action="@{'/benevoles/'+${benevole.id}+'/update'}" method="post" th:object="${benevole}">
+                    <div class="col-sm-12">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4" th:text="#{bet}">Floating Label</h6>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="id" th:field="*{id}" readonly/>
+                                <label for="id" th:text="id">Code</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="username"
+                                       th:field="*{username}" />
+                                <label for="username" th:text="#{bUsername}">Username</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="name"
+                                       th:field="*{name}" />
+                                <label for="name" th:text="#{bName}">Name</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="lastName"
+                                       th:field="*{lastName}" />
+                                <label for="lastName" th:text="#{bLastname}">Lastname</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">lastname error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="address" th:field="*{address}" />
+                                <label for="address" th:text="#{bAddress}">Adresse</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">address error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="code" th:field="*{code}" />
+                                <label for="code" th:text="#{bCode}">Code</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">code error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="ville" th:field="*{ville}" />
+                                <label for="ville" th:text="#{bVille}">Ville</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}">ville error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="email" th:field="*{email}" />
+                                <label for="email" th:text="#{bEmail}">Email</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="phone" th:field="*{phone}" />
+                                <label for="phone" th:text="#{bPhone}">Phone</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">phone error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="password" th:field="*{password}" readonly="" />
+                                <label for="password" th:text="#{bPassword}">Password</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control"
+                                       id="profession" th:field="*{profession}" />
+                                <label for="profession" th:text="#{bProfession}">Profession</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('profession')}" th:errors="*{profession}">profession error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="sexe" th:field="*{sexe}"
+                                        aria-label="Floating label select example">
+                                    <option th:text="Feminin" th:value="Feminin">f</option>
+                                    <option th:text="Masculin" th:value="Masculin">m</option>
+                                </select>
+                                <label for="sexe" th:text="#{bSexe}">sexe selects</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('sexe')}" th:errors="*{sexe}">sexe error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control"
+                                       id="dateNaiss" th:field="*{dateNaiss}" />
+                                <label for="dateNaiss" th:text="#{bNaiss}">dateNaiss</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('dateNaiss')}" th:errors="*{dateNaiss}">dateNaiss error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="permis" th:field="*{permis}"
+                                        aria-label="Floating label select example">
+                                    <option th:text="Oui" th:value="true">true</option>
+                                    <option th:text="Non" th:value="false">false</option>
+                                </select>
+                                <label for="permis" th:text="#{bSexe}">permis selects</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('permis')}" th:errors="*{permis}">permis error message</span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="chef" th:field="*{chef}"
+                                        aria-label="Floating label select example">
+                                    <option th:text="Oui" th:value="true">true</option>
+                                    <option th:text="Non" th:value="false">false</option>
+                                </select>
+                                <label for="chef" th:text="#{bChef}">permis selects</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('chef')}" th:errors="*{chef}">chef error message</span>
+                            </div>
+                            <div class="form-floating mb-3" style="display: none">
+                                <select class="form-select" id="idRole" th:field="*{idRole}"
+                                        aria-label="Floating label select example" >
+                                    <option th:each="role: ${roles}" th:text="${role.name}" th:value="${role.id}">select role</option>
+                                </select>
+                                <label for="idRole" th:text="#{bRole}">role selects</label>
+                                <span class="text-danger" th:if="${#fields.hasErrors('idRole')}" th:errors="*{idRole}">role error message</span>
+                            </div> 
+                            <button type="submit" class="btn btn-primary" 
+                                    sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                <i class="bi bi-pen"></i>
+                                <span th:text="#{edit}">text</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div th:unless="${benevole!=null}">Not result found!</div>
+            </div>
+        </main>
+    </body>
+
+</html>
