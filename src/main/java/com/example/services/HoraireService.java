@@ -38,6 +38,18 @@ public class HoraireService {
     }
 
     /**
+     * Méthode de lecture des horaires avant indisponibilité
+     * 
+     * @param days Le nombre de jours
+     * @param type Le type de période désiré
+     * 
+     * @return La liste des horaires selon le type et le nombre de jours avant indisponibilité.
+     */
+    public List<Horaire> availableAfterDayAndType(Double days, String type) {
+        return hr.findByDaysAndType(days, type);
+    }
+
+    /**
      * Méthode de lecture des horaire par type 
      * 
      * @param type Le type d'horaire(Recup/Distrib) à extraire en bd

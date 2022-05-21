@@ -34,7 +34,6 @@
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0" th:text="#{dst}">Recent Salse</h6>
-                        <!--<a href="">Show All</a>-->
                     </div>
                     <div class="d-flex align-items-center border-bottom py-3">
                         <div class="w-100 ms-3">
@@ -82,6 +81,14 @@
                                 <h6 class="mb-0" th:text="#{dRapport}">Statut</h6>
                             </div>
                             <span th:text="${distribution.rapport}">status</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center border-bottom py-3">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-0" th:text="#{dPeriode}">Statut</h6>
+                            </div>
+                            <span th:text="|${#temporals.format(distribution.start, 'dd MMM yyyy HH:ss')} - ${#temporals.format(distribution.end, 'dd MMM yyyy HH:ss')}|">status</span>
                         </div>
                     </div>
                     <form th:action="@{'/distributions/'+ ${dist.id}+'/delete'}" 

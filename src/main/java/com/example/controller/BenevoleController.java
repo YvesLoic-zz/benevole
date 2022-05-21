@@ -46,8 +46,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/benevoles")
 public class BenevoleController {
 
-
-
     @Autowired
     private BenevoleService bs;
 
@@ -68,6 +66,7 @@ public class BenevoleController {
     private static final String BENEVOLE_CREATE = "benevole/create";
     private static final String BENEVOLE_EDIT = "benevole/edit";
     private static final String DOUBLON = "doublon";
+    private static final double DAYS = 3;
     private static final String HORAIRES = "horaires";
     private static final String ROLES = "roles";
     private static final String REDIRECT_BENEVOLES_INDEX = "redirect:/benevoles/index";
@@ -294,9 +293,11 @@ public class BenevoleController {
         if (benevole != null) {
             request.setHoraires(benevole.getHoraires());
             model.addAttribute("hd",
-                    hs.all("Distribution").stream().map(HoraireResponse::new).collect(Collectors.toList()));
+                    hs.availableAfterDayAndType(DAYS, "Distribution").stream().map(HoraireResponse::new)
+                            .collect(Collectors.toList()));
             model.addAttribute("hr",
-                    hs.all("Recuperation").stream().map(HoraireResponse::new).collect(Collectors.toList()));
+                    hs.availableAfterDayAndType(DAYS, "Recuperation").stream().map(HoraireResponse::new)
+                            .collect(Collectors.toList()));
             model.addAttribute(BENEVOLE, request);
             return "horaire/benevoleCreate";
         } else {
@@ -341,7 +342,7 @@ public class BenevoleController {
     }
 
     @GetMapping("/{id}/missions")
-    public String missions(@PathVariable("id") Long id, Model model){
+    public String missions(@PathVariable("id") Long id, Model model) {
         Benevole b = bs.one(id).orElse(null);
         model.addAttribute("equipes", b.getEquipes().stream().map(EquipeResponse::new).collect(Collectors.toList()));
         return "benevole/missions";
