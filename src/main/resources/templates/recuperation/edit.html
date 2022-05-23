@@ -56,8 +56,8 @@
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="magasins" th:field="*{magasins}"
                                         aria-label="Floating label select example" multiple="" style="height: 25%">
-                                    <!--<option th:each="mag: ${magasins}" th:text="${mag.name}" th:value="${mag.id}">select magasin</option>-->
-                                </select>
+
+                                    </select>
                                 <label for="magasins" th:text="#{rMagasin}">Works with selects</label>
                                 <span class="text-danger" th:if="${#fields.hasErrors('magasins')}" th:errors="*{magasins}">magasin error message</span>
                             </div>
@@ -76,9 +76,6 @@
         <div layout:fragment="optional">
             <script>
                 (function ($) {
-                    if ($('#horaire').val() !== null && $('#equipe').val() !== null && $('#magasins').val() !== null) {
-                        $('#edit').attr('disable', false);
-                    }
                     
                     $('#horaire').on('change', function (e) {
                         var val = $(e.target).val();
@@ -110,7 +107,7 @@
 
                     function fillEquipes(data) {
                         $('#equipe').empty();
-                        $('#equipe').append($('<option></option>').text("Selectionnez une equipe"));
+                        $('#equipe').append($('<option></option>').attr('value',0).text("Selectionnez une equipe"));
                         data.forEach(function (e) {
                             $('#equipe').append($('<option></option>')
                                     .attr('value', e.id)

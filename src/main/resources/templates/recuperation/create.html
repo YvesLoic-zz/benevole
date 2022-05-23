@@ -104,7 +104,7 @@
 
                     function fillEquipes(data) {
                         $('#equipe').empty();
-                        $('#equipe').append($('<option></option>').text("Selectionnez une equipe"));
+                        $('#equipe').append($('<option></option>').attr('value', 0).text("Selectionnez une equipe"));
                         data.forEach(function (e) {
                             $('#equipe').append($('<option></option>')
                                     .attr('value', e.id)

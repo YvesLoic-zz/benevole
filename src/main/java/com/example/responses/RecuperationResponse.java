@@ -32,6 +32,8 @@ public class RecuperationResponse implements Serializable {
     private int effectif;
     private List<MagasinResponse> magasins;
     private String rapport;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     public RecuperationResponse(Recuperation r) {
         this.id = r.getId();
@@ -44,5 +46,7 @@ public class RecuperationResponse implements Serializable {
         this.effectif = r.getEquipe().getMembers().size();
         this.magasins = r.getMagasins().stream().map(MagasinResponse::new).collect(Collectors.toList());
         this.rapport = r.getRapport();
+        this.start = r.getStart();
+        this.end = r.getEnd();
     }
 }

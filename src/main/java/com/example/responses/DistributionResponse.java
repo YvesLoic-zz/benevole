@@ -28,6 +28,8 @@ public class DistributionResponse implements Serializable {
     private EquipeResponse equipe;
     private int effectif;
     private String rapport;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     public DistributionResponse(Distribution d) {
         this.id = d.getId();
@@ -38,5 +40,7 @@ public class DistributionResponse implements Serializable {
         this.equipe = new EquipeResponse(d.getEquipe());
         this.effectif = d.getEquipe().getMembers().size();
         this.rapport = d.getRapport();
+        this.start = d.getStart();
+        this.end = d.getEnd();
     }
 }
