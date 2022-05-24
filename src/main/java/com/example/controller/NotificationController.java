@@ -29,8 +29,6 @@ public class NotificationController {
 
     private static final String NOTIF_LIST = "notif/list";
 
-    private static final String NOTIFICATIONS = "notifications";
-
     @Autowired
     private NotificationService ns;
 
@@ -40,7 +38,7 @@ public class NotificationController {
     @GetMapping("/index")
     public String index(@AuthenticationPrincipal CustomUserDetail principal, Model model) {
         User u = us.one(principal.getUsername()).orElse(null);
-        model.addAttribute(NOTIFICATIONS,
+        model.addAttribute("notifications",
                 ns.all(u.getBenevole()).stream().map(NotificationResponse::new).collect(Collectors.toList()));
         return NOTIF_LIST;
     }
@@ -50,7 +48,7 @@ public class NotificationController {
         Notification n = ns.one(id).orElse(null);
         if (n != null) {
             ns.delete(id);
-            return NOTIF_LIST;
+            return "redirect:/notifications/index";
         }
         return NOTIF_LIST;
     }

@@ -57,7 +57,7 @@
                                     </td>
                                     <td sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_BENEVOLE')">
                                         <a class="btn btn-info" th:href="@{'/recuperations/'+${r.id}+'/start'}"
-                                           th:if="${r.startDate.isBefore(#temporals.createNow())}" >
+                                           th:if="${r.startDate.isBefore(#temporals.createNow()) && r.statut=='EN_ATTENTE'}" >
                                             <i class="bi bi-rulers"></i>
                                             <span th:text="#{begin}">text</span>
                                         </a>

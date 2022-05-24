@@ -57,7 +57,7 @@
                                     <td th:text="${d.statut}"></td>
                                     <td>
                                         <a class="btn btn-info" th:href="@{'/distributions/'+${d.id}+'/start'}"
-                                           th:if="${d.startDate.isBefore(#temporals.createNow())}">
+                                           th:if="${d.startDate.isBefore(#temporals.createNow()) && d.statut=='EN_ATTENTE'}">
                                             <i class="bi bi-rulers"></i>
                                             <span th:text="#{begin}">text</span>
                                         </a>

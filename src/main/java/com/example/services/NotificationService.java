@@ -72,8 +72,7 @@ public class NotificationService {
     public String delete(Long id) {
         Notification data = this.one(id).orElse(null);
         if (data != null) {
-            data.setOpen(false);
-            this.addOrUpdate(data);
+            nr.deleteById(id);
             return "Notification deleted!";
         }
         return String.format("Notification with id %d does not exist!", id);

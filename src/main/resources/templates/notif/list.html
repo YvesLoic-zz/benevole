@@ -29,7 +29,7 @@
 
         <div class="row">
             <div class="col">
-                <div th:if="${!notifications.isEmpty()}">
+                <div th:if="${notifications!=null && !notifications.isEmpty()}">
                     <table class="table" id="notifs">
                         <thead>
                             <tr>
@@ -55,7 +55,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div th:unless="${!notifications.isEmpty()}" th:text="#{empty.list(Notifications)}">
+                <div th:unless="${notifications!=null && !notifications.isEmpty()}" th:text="#{empty.list}">
                     La liste est vide.
                 </div>
             </div>

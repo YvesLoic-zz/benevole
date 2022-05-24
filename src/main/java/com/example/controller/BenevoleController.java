@@ -19,7 +19,6 @@ import com.example.services.HoraireService;
 import com.example.services.UserService;
 import com.example.util.CustomUserDetail;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,7 +65,7 @@ public class BenevoleController {
     private static final String BENEVOLE_CREATE = "benevole/create";
     private static final String BENEVOLE_EDIT = "benevole/edit";
     private static final String DOUBLON = "doublon";
-    private static final double DAYS = 3;
+    private static final double DAYS = 0;
     private static final String HORAIRES = "horaires";
     private static final String ROLES = "roles";
     private static final String REDIRECT_BENEVOLES_INDEX = "redirect:/benevoles/index";
@@ -261,6 +260,13 @@ public class BenevoleController {
         }
     }
 
+    /**
+     * Méthode de définition des roles d'un user/bénévole
+     * 
+     * @param value Identifiant du role à attribuer à l'utilisateur
+     * 
+     * @return La liste des roles à attribuer à un user/bénévole 
+     */
     private List<Role> getRoles(Long value) {
         List<Role> roles = rr.findAll();
         List<Role> userRoles;
